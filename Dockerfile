@@ -1,19 +1,2 @@
-FROM node:20.19-alpine3.20
-
-ARG N8N_VERSION=1.123.5
-
-RUN apk add --update graphicsmagick tzdata
-
-USER root
-
-RUN apk --update add --virtual build-dependencies python3 build-base && \
-    npm_config_user=root npm install --location=global n8n@${N8N_VERSION} && \
-    apk del build-dependencies
-
-WORKDIR /data
-
-EXPOSE $PORT
-
-ENV N8N_USER_ID=root
-
-CMD export N8N_PORT=$PORT && n8n start
+FROM n8nio/n8n:2.0.0
+CMD sh -c "export N8N_PORT=$PORT && n8n start"
